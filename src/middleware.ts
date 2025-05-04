@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { verifyToken } from '@/lib/authUtils'; // Assuming verifyToken utility exists
+import { verifyToken } from '@/lib/authUtils'; // Ensure correct path
 
 // Define paths that should be protected by authentication
 const protectedApiPaths = [
@@ -20,9 +20,11 @@ export async function middleware(req: NextRequest) {
   const pathname = req.nextUrl.pathname;
 
   // Simple check to exclude static files and framework internals
+  // Updated to allow files with extensions like .css, .js etc.
   if (pathname.startsWith('/_next/') || pathname.includes('.') || publicPaths.includes(pathname)) {
     return NextResponse.next();
   }
+
 
   const isProtectedApi = protectedApiPaths.some(path => pathname.startsWith(path));
   const isProtectedPage = !publicPaths.includes(pathname) && !isProtectedApi && !pathname.startsWith('/api/'); // Rough check for non-API, non-public pages
@@ -37,7 +39,7 @@ export async function middleware(req: NextRequest) {
     }
 
     try {
-      const decoded = await verifyToken(token);
+      const decoded = await verifyToken(token); // Use jose-based verification
       if (!decoded || decoded.role !== 'admin') { // Ensure user has admin role
         throw new Error('Invalid token or insufficient permissions');
       }
@@ -52,6 +54,7 @@ export async function middleware(req: NextRequest) {
       });
     } catch (error) {
       console.error('API Auth Error:', error);
+      // Use status 401 for consistency, even if token is expired/malformed
       return NextResponse.json({ message: 'Invalid or expired token' }, { status: 401 });
     }
   }
@@ -61,7 +64,7 @@ export async function middleware(req: NextRequest) {
    // or handle server-side redirects before the client-side AuthProvider kicks in.
    // We can check for the token cookie *if* we decide to set one server-side,
    // but relying on client-side localStorage is the current approach via AuthProvider.
-   // Let's keep this minimal or remove if AuthProvider is sufficient.
+   // Keep this minimal as AuthProvider handles client-side redirection.
     // if (isProtectedPage) {
     //     // Example: Check for a cookie if you were setting one server-side
     //     // const tokenCookie = req.cookies.get('adminToken');
@@ -69,7 +72,15 @@ export async function middleware(req: NextRequest) {
     //     //     const loginUrl = new URL('/login', req.url);
     //     //     return NextResponse.redirect(loginUrl);
     //     // }
-    //     // // Optional: Verify cookie token server-side here as well
+    //     // // Optional: Verify cookie token server-side here as well using verifyToken
+    //     // try {
+    //     //      await verifyToken(tokenCookie.value);
+    //     // } catch (e) {
+    //     //      const loginUrl = new URL('/login', req.url);
+    //     //      const response = NextResponse.redirect(loginUrl);
+    //     //      response.cookies.delete('adminToken'); // Clear invalid cookie
+    //     //      return response;
+    //     // }
     // }
 
 
@@ -85,12 +96,9 @@ export const config = {
        * - _next/static (static files)
        * - _next/image (image optimization files)
        * - favicon.ico (favicon file)
-       * - /login (login page)
-       * - /api/auth/login (login API) - handled explicitly above
-       * Match API routes explicitly if needed, or rely on the logic within the middleware.
+       * Also exclude files with extensions (e.g., .png, .jpg, .css)
+       * Match API routes and page routes.
        */
-      '/((?!_next/static|_next/image|favicon.ico|login|api/auth/login).*)',
-      // Explicitly include API paths if the above pattern is too broad or complex
-      // '/api/:path*', // Example: Match all API routes (excluding login)
+       '/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)',
     ],
 };
