@@ -3,12 +3,22 @@ import { getFirestore } from 'firebase/firestore';
 import { getAuth } from 'firebase/auth'; // Although not using Firebase Auth directly, good to have initialized if needed elsewhere
 
 const firebaseConfig = {
-  apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
-  authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
-  projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
-  storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
-  messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
-  appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
+  apiKey: "AIzaSyBvfau8ulBuySTVPBcGSY2L6Hge_Kr-uZo",
+
+  authDomain: "airpesa-d5c18.firebaseapp.com",
+
+  databaseURL: "https://airpesa-d5c18-default-rtdb.firebaseio.com",
+
+  projectId: "airpesa-d5c18",
+
+  storageBucket: "airpesa-d5c18.firebasestorage.app",
+
+  messagingSenderId: "416494485070",
+
+  appId: "1:416494485070:web:ef5ef6df8052598b388d1f",
+
+  measurementId: "G-JGPSJQ41TV"
+
 };
 
 // Initialize Firebase

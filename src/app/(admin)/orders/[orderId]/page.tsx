@@ -180,8 +180,8 @@ export default function OrderDetailsPage() {
                                                     {!item.color && !item.size && '-'}
                                                 </TableCell>
                                                 <TableCell className="text-center">{item.quantity}</TableCell>
-                                                <TableCell className="text-right">${item.pricePerUnit.toFixed(2)}</TableCell>
-                                                <TableCell className="text-right">${(item.quantity * item.pricePerUnit).toFixed(2)}</TableCell>
+                                                <TableCell className="text-right">${(item.pricePerUnit ?? 0).toFixed(2)}</TableCell>
+                                                <TableCell className="text-right">${((item.quantity ?? 0) * (item.pricePerUnit ?? 0)).toFixed(2)}</TableCell>
                                             </TableRow>
                                         ))}
                                     </TableBody>
@@ -199,7 +199,7 @@ export default function OrderDetailsPage() {
                                 )}
                              </div>
                              <div className="text-right">
-                                <p className="text-lg font-semibold">Total: ${order.totalAmount.toFixed(2)}</p>
+                                <p className="text-lg font-semibold">Total: ${(order.totalAmount ?? 0).toFixed(2)}</p>
                              </div>
                          </CardFooter>
                     </Card>
