@@ -1,3 +1,4 @@
+
 'use client';
 
 import React, { useState, useMemo } from 'react';
@@ -201,18 +202,18 @@ export default function OrdersPage() {
                                                 onValueChange={(newStatus: OrderStatus) => handleStatusChange(order.id, newStatus)} // Pass Firestore ID
                                                 disabled={updateStatusMutation.isPending && updateStatusMutation.variables?.orderId === order.id}
                                                 >
-                                                <SelectTrigger className={`w-[120px] h-8 text-xs border-0 focus:ring-0 shadow-none ${updateStatusMutation.isPending && updateStatusMutation.variables?.orderId === order.id ? 'opacity-50' : ''}`}>
-                                                    {/* Display Badge inside Trigger */}
-                                                    <SelectValue asChild>
-                                                        <Badge variant={getStatusVariant(order.orderStatus)} className="capitalize">
-                                                            {order.orderStatus}
-                                                         </Badge>
-                                                    </SelectValue>
+                                                <SelectTrigger className={`w-[120px] h-8 text-xs border-0 focus:ring-0 shadow-none p-0 ${updateStatusMutation.isPending && updateStatusMutation.variables?.orderId === order.id ? 'opacity-50' : ''}`}>
+                                                     {/* Display Badge directly inside Trigger, remove SelectValue */}
+                                                      <Badge variant={getStatusVariant(order.orderStatus)} className="capitalize w-full justify-start border-transparent px-2.5">
+                                                          {order.orderStatus}
+                                                      </Badge>
+                                                      {/* ChevronDown icon is automatically added by SelectTrigger */}
                                                 </SelectTrigger>
                                                 <SelectContent>
                                                     {ALL_STATUSES.map(status => (
                                                         <SelectItem key={status} value={status} className="text-xs">
-                                                             <Badge variant={getStatusVariant(status)} className="capitalize mr-2">{status}</Badge>
+                                                             {/* You can keep the badge here for consistency in the dropdown */}
+                                                             <Badge variant={getStatusVariant(status)} className="capitalize mr-2 border-transparent">{status}</Badge>
                                                         </SelectItem>
                                                     ))}
                                                 </SelectContent>
