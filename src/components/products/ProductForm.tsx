@@ -23,8 +23,8 @@ import { Skeleton } from '@/components/ui/skeleton'; // Import Skeleton
 
 // ---- Environment Variables ----
 // Ensure these are set in your .env.local file
-const CLOUDINARY_CLOUD_NAME = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME || 'dykwdjdaf'; // Replace with your default or throw error
-const CLOUDINARY_UPLOAD_PRESET = process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET || 'events'; // Replace with your default or throw error
+const CLOUDINARY_CLOUD_NAME = 'dykwdjdaf'; // Replace with your default or throw error
+const CLOUDINARY_UPLOAD_PRESET = 'events'; // Replace with your default or throw error
 
 if (!CLOUDINARY_CLOUD_NAME || !CLOUDINARY_UPLOAD_PRESET) {
   console.error("Cloudinary environment variables (NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME, NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET) are not set!");
