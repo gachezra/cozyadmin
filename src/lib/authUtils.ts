@@ -1,8 +1,8 @@
 import { jwtVerify, type JWTPayload } from 'jose';
-import { TextEncoder } from 'util'; // Use TextEncoder for Edge compatibility
+// Removed: import { TextEncoder } from 'util'; // Don't import from 'util' for Edge Runtime
 
 const JWT_SECRET_STRING = process.env.JWT_SECRET || 'fallback-secret-key-replace-in-production';
-// Convert the secret string to a Uint8Array using TextEncoder for Edge compatibility
+// Convert the secret string to a Uint8Array using the global TextEncoder for Edge compatibility
 const JWT_SECRET = new TextEncoder().encode(JWT_SECRET_STRING);
 
 interface DecodedToken extends JWTPayload {
